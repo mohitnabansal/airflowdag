@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 
 # Define the Python function to be executed
-def print_hello():
+def helloWorld():
     print("Hello, Airflow!")
 
 # Define default arguments
@@ -14,7 +14,7 @@ default_args = {
     'email_on_retry': False,
     'retries': 1,
 }
-def helloworld():
+def helloWorld():
     print("TEST")
 # Define the DAG
 with DAG(dag_id="hello_world_dag",
