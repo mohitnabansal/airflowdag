@@ -1,22 +1,7 @@
-from airflow.decorators import dag, task
-from airflow.operators.bash import BashOperator
+dag = DAG('hello_world', description='Hello World DAG',
+          schedule_interval='0 12 * * *',
+          start_date=datetime(2022, 8, 24), catchup=False)
 
-from datetime import datetime
+hello_operator = PythonOperator(task_id='hello_task', python_callable=print_hello, dag=dag)
 
-@dag(start_date=datetime(2023, 1 , 1), schedule='@daily', catchup=False)
-def parallel_dag():
-
-    tasks = [BashOperator(task_id='task_{0}'.format(t), bash_command='sleep 60'.format(t)) for t in range(1, 4)]
-
-    @task
-    def task_4(data):
-        print(data)
-        return 'done'
-    
-    @task
-    def task_5(data):
-        print(data)
-
-    tasks >> task_5(task_4(42))
-
-parallel_dag()
+hello_operator
