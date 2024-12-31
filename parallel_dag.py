@@ -1,7 +1,10 @@
 from airflow import DAG
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 
+# Define the Python function to be executed
+def print_hello():
+    print("Hello, Airflow!")
 
 # Define default arguments
 default_args = {
@@ -11,27 +14,17 @@ default_args = {
     'email_on_retry': False,
     'retries': 1,
 }
-
+def helloworld():
+    print("TEST")
 # Define the DAG
-with DAG(
-    'kubernetes_operator_dag',
-    default_args=default_args,
-    description='A simple KubernetesPodOperator DAG',
-    schedule_interval='@daily',
-    start_date=days_ago(1),
-    catchup=False,
-) as dag:
+with DAG(dag_id="hello_world_dag",
+         start_date=datetime(2021,1,1),
+         schedule_interval="@hourly",
+         catchup=False) as dag:
 
-    # Define the KubernetesPodOperator task
-    k8s_task = KubernetesPodOperator(
-        namespace='default',
-        image="python:3.8-slim",
-        cmds=["python", "-c"],
-        arguments=["print('Hello from KubernetesPodOperator')"],
-        labels={"foo": "bar"},
-        name="k8s_task",
-        task_id="k8s_task",
-        get_logs=True,
-    )
+    # Define the PythonOperator task
+task1 = PythonOperator(
+        task_id="hello_world",
+        python_callable=helloWorld)
 
-    k8s_task
+task1
