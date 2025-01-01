@@ -33,4 +33,4 @@ with DAG(
         get_logs=True,
     )
 
-    k8s_task
+k8s_task
