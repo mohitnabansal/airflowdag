@@ -23,7 +23,7 @@ with DAG(
 
     # Define the KubernetesPodOperator task
     k8s_task = KubernetesPodOperator(
-        namespace='default',
+        namespace='airflow',
         image="python:3.8-slim",
         cmds=["python", "-c"],
         arguments=["print('Hello from KubernetesPodOperator')"],
